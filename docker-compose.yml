@@ -1,0 +1,25 @@
+version: '3.9'
+
+services: 
+  pg:
+    container_name: pg
+    build:
+      ./postgres
+    env_file:
+      environment/postgres.env
+    restart: always
+    shm_size: 128mb
+    volumes:
+      - ./var/pgdata:/var/lib/postgresql/data
+  nest:
+    container_name: nest
+    build: .
+    restart: always
+    env_file:
+      environment/nest.env
+    ports: 
+      - 3000:3000
+    depends_on: 
+      - pg
+
+
